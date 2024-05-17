@@ -7,12 +7,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// func delete_at_index(list []string, index int) []string {
-// 	return append(list[:index], list[index+1:]...)
-// }
+//	func delete_at_index(list []string, index int) []string {
+//		return append(list[:index], list[index+1:]...)
+//	}
+func reverse_slice(originalSlice []string) []string {
+
+	slice := make([]string, len(originalSlice))
+	count := copy(slice, originalSlice)
+	fmt.Println("Copied: ", count)
+	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
+		slice[i], slice[j] = slice[j], slice[i]
+	}
+	return slice
+}
+
+type Response struct {
+	Item1 string   `json:"item1"`
+	Item2 []string `json:"item2"`
+}
 
 func main() {
-	count := 1
+	count := 0
 	historyCount := 100
 	history := []string{}
 
@@ -34,9 +49,15 @@ func main() {
 		}
 		history = append(history, fmt.Sprintf("Serial: %v! Default get endpoint", count))
 
+		reversed_history := reverse_slice(history)
+
+		res := Response{
+			Item1: "Howdy partner!? You have reached the default get endpoint. Good day",
+			Item2: reversed_history,
+		}
+
 		ctx.JSON(200, gin.H{
-			"message": "You have reached to default get endpoint",
-			"history": history,
+			"res": res,
 		})
 	})
 
@@ -50,9 +71,15 @@ func main() {
 		}
 		history = append(history, fmt.Sprintf("Serial: %v! Named get endpoint: %s", count, name))
 
+		reversed_history := reverse_slice(history)
+
+		res := Response{
+			Item1: fmt.Sprintf("Good day Sir %v, You have reached the named get endpoint.", name),
+			Item2: reversed_history,
+		}
+
 		ctx.JSON(200, gin.H{
-			"message": fmt.Sprintf("Hi %s! You have reached to named get endpoint", name),
-			"history": history,
+			"res": res,
 		})
 	})
 
