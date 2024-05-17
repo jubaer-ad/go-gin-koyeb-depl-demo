@@ -1,6 +1,6 @@
 module gin-depl-demo
 
-go 1.21.10
+go 1.20
 
 require github.com/gin-gonic/gin v1.10.0
 
