@@ -28,7 +28,7 @@ type Response struct {
 
 func main() {
 	count := 0
-	historyCount := 100
+	historyCount := 500
 	history := []string{}
 
 	fmt.Printf("Wecome to go-gin")
@@ -44,7 +44,7 @@ func main() {
 		count++
 
 		if len(history) >= historyCount {
-			newStartIndex := len(history) - historyCount - 1
+			newStartIndex := len(history) - (historyCount - 1)
 			history = history[newStartIndex:]
 		}
 		history = append(history, fmt.Sprintf("Serial: %v! Default get endpoint", count))
@@ -66,7 +66,7 @@ func main() {
 		name := ctx.Param("name")
 
 		if len(history) >= historyCount {
-			newStartIndex := len(history) - historyCount - 1
+			newStartIndex := len(history) - (historyCount - 1)
 			history = history[newStartIndex:]
 		}
 		history = append(history, fmt.Sprintf("Serial: %v! Named get endpoint: %s", count, name))
